@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from cStringIO import StringIO
+from io import StringIO
 import optparse
 import math
 import numpy as np
@@ -242,7 +242,7 @@ class MomentTensor:
                                         'eigvals', 'eigvecs',
                                         't', 'n', 'p')
 
-        self._decomp_attrib_map = dict(zip(self._decomp_attrib_map_keys,
+        self._decomp_attrib_map = dict(list(zip(self._decomp_attrib_map_keys,
                                            ('input_system', 'output_system',
                                             'decomp_type', 'M',
                                             'iso', 'iso_percentage',
@@ -254,7 +254,7 @@ class MomentTensor:
                                             'moment', 'mag',
                                             'eigvals', 'eigvecs',
                                             't_axis', 'null_axis', 'p_axis')
-                                           ))
+                                           )))
 
         # carry out the MT decomposition - results are in basis NED
         self._decompose_M()
@@ -353,7 +353,7 @@ class MomentTensor:
     def print_decomposition(self):
         for arg in self._decomp_attrib_map_keys:
             getter = getattr(self, 'get_' + self._decomp_attrib_map[arg])
-            print getter(style='y', system=self._output_basis)
+            print(getter(style='y', system=self._output_basis))
 
     def _standard_decomposition(self):
         """
@@ -808,8 +808,8 @@ class MomentTensor:
         if (EW3 < 0 and np.trace(self._M) >= 0):
             # reaching this point means, we have a serious problem, likely of
             # numerical nature
-            print 'Houston, we have had a problem  - check M !!!!!! \n' + \
-                  '( Trace(M) > 0, but largest eigenvalue is still negative)'
+            print('Houston, we have had a problem  - check M !!!!!! \n' + \
+                  '( Trace(M) > 0, but largest eigenvalue is still negative)')
             raise MTError(' !! ')
 
         if trace_M == 0:
@@ -1645,7 +1645,7 @@ class BeachBall:
             plotfig.savefig(outfile_abs_name, dpi=self._plot_dpi,
                             transparent=True, format=outfile_format)
         except:
-            print 'ERROR!! -- Saving of plot not possible'
+            print('ERROR!! -- Saving of plot not possible')
             return
         P.close(667)
         del P
@@ -1791,8 +1791,8 @@ class BeachBall:
 
         elif self._GMT_1fp:
             if not int(self._GMT_1fp) in [1, 2]:
-                print 'no fault plane specified for being plotted...continue',
-                print 'without fault plane(s)'
+                print('no fault plane specified for being plotted...continue', end=' ')
+                print('without fault plane(s)')
                 pass
             else:
                 if int(self._GMT_1fp) == 1:
@@ -2059,7 +2059,7 @@ class BeachBall:
                                 transparent=True,
                                 format=self._plot_outfile_format)
             except:
-                print 'saving of plot not possible'
+                print('saving of plot not possible')
 
         P.show()
 
@@ -2089,7 +2089,7 @@ class BeachBall:
         for i in (np.arange(4) + 1) * 0.2:
             r_steps.append(i)
         r_labels = ['S']
-        for ii in xrange(len(r_steps)):
+        for ii in range(len(r_steps)):
             if (ii + 1) % 2 == 0:
                 r_labels.append(str(r_steps[ii]))
             else:
@@ -2116,7 +2116,7 @@ class BeachBall:
                             transparent=True,
                             format=self._plot_outfile_format)
             except:
-                print 'saving of plot not possible'
+                print('saving of plot not possible')
         P.show()
 
     def _set_standard_attributes(self):
@@ -2201,7 +2201,7 @@ class BeachBall:
         the object, the value is updated. Otherwise, the keyword is
         ignored.
         """
-        for key in kwargs.keys():
+        for key in list(kwargs.keys()):
             if key[0] == '_':
                 kw = key[1:]
             else:
@@ -2313,7 +2313,7 @@ class BeachBall:
                 if go_ccw:
                     obj2cor_in_right_order = \
                         list(obj2cor_in_right_order.transpose())
-                    for kk in xrange(n_edgepoints + 1):
+                    for kk in range(n_edgepoints + 1):
                         current_phi = phi_end - kk * openangle / \
                             (n_edgepoints + 1)
                         current_radius = R_end + kk * radius_interval / \
@@ -2326,7 +2326,7 @@ class BeachBall:
                 else:
                     obj2cor_in_right_order = \
                         list(obj2cor_in_right_order.transpose())
-                    for kk in xrange(n_edgepoints + 1):
+                    for kk in range(n_edgepoints + 1):
                         current_phi = phi_end + kk * openangle / \
                             (n_edgepoints + 1)
                         current_radius = R_end + kk * radius_interval / \
@@ -2403,7 +2403,7 @@ class BeachBall:
 
                     EWs = EWh_tmp.copy()
                     EWh = EWs_tmp.copy()
-                    print 'changed order!!\n'
+                    print('changed order!!\n')
                     EVs_tmp = self.MT._rotation_matrix[:, 2].copy()
                     EVh_tmp = self.MT._rotation_matrix[:, 0].copy()
 
@@ -2457,7 +2457,7 @@ class BeachBall:
         line_tuple_pos = np.zeros((3, n_curve_points))
         line_tuple_neg = np.zeros((3, n_curve_points))
 
-        for ii in xrange(n_curve_points):
+        for ii in range(n_curve_points):
             pos_vec_in_EV_basis = np.array([H_values[ii], N_values[ii],
                                            S_values_positive[ii]]).transpose()
             neg_vec_in_EV_basis = np.array([H_values[ii], N_values[ii],
@@ -2496,7 +2496,7 @@ class BeachBall:
         FP1 = np.zeros((3, n_curve_points))
         FP2 = np.zeros((3, n_curve_points))
 
-        for ii in xrange(midpoint_idx):
+        for ii in range(midpoint_idx):
             FP1_vec = np.array([H_values_FP[ii], N_values_FP[ii],
                                S_values_positive_FP[ii]]).transpose()
             FP2_vec = np.array([H_values_FP[ii], N_values_FP[ii],
@@ -2504,7 +2504,7 @@ class BeachBall:
             FP1[:, ii] = np.dot(chng_basis, FP1_vec)
             FP2[:, ii] = np.dot(chng_basis, FP2_vec)
 
-        for jj in xrange(midpoint_idx):
+        for jj in range(midpoint_idx):
             ii = n_curve_points - jj - 1
 
             FP1_vec = np.array([H_values_FP[ii], N_values_FP[ii],
@@ -2669,7 +2669,7 @@ class BeachBall:
             object2rotate = getattr(self, '_' + obj).transpose()
 
             rotated_thing = object2rotate.copy()
-            for i in xrange(len(object2rotate)):
+            for i in range(len(object2rotate)):
                 rotated_thing[i] = np.dot(self._plot_basis_change,
                                           object2rotate[i])
 
@@ -2684,25 +2684,25 @@ class BeachBall:
         list_of_possible_projections = ['stereo', 'ortho', 'lambert', 'gnom']
 
         if not self._plot_projection in list_of_possible_projections:
-            print 'desired projection not possible - choose from:\n ',
-            print list_of_possible_projections
+            print('desired projection not possible - choose from:\n ', end=' ')
+            print(list_of_possible_projections)
             raise MTError(' !! ')
 
         if self._plot_projection == 'stereo':
             if not self._stereo_vertical():
-                print 'ERROR in stereo_vertical'
+                print('ERROR in stereo_vertical')
                 raise MTError(' !! ')
         elif self._plot_projection == 'ortho':
             if not self._orthographic_vertical():
-                print 'ERROR in stereo_vertical'
+                print('ERROR in stereo_vertical')
                 raise MTError(' !! ')
         elif self._plot_projection == 'lambert':
             if not self._lambert_vertical():
-                print 'ERROR in stereo_vertical'
+                print('ERROR in stereo_vertical')
                 raise MTError(' !! ')
         elif self._plot_projection == 'gnom':
             if not self._gnomonic_vertical():
-                print 'ERROR in stereo_vertical'
+                print('ERROR in stereo_vertical')
                 raise MTError(' !! ')
 
     def _stereo_vertical(self):
@@ -2723,8 +2723,8 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print 'desired plotting projection not possible - choose from :\n',
-            print available_coord_systems
+            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print(available_coord_systems)
             raise MTError(' !! ')
 
         plot_upper_hem = self._plot_show_upper_hemis
@@ -2737,7 +2737,7 @@ class BeachBall:
             n_points = len(o2proj[0, :])
             stereo_coords = np.zeros((2, n_points))
 
-            for ll in xrange(n_points):
+            for ll in range(n_points):
                 # second component is EAST
                 co_x = coords[1, ll]
                 # first component is NORTH
@@ -2800,8 +2800,8 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print 'desired plotting projection not possible - choose from :\n',
-            print available_coord_systems
+            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print(available_coord_systems)
             raise MTError(' !! ')
 
         plot_upper_hem = self._plot_show_upper_hemis
@@ -2814,7 +2814,7 @@ class BeachBall:
             n_points = len(o2proj[0, :])
             coords2D = np.zeros((2, n_points))
 
-            for ll in xrange(n_points):
+            for ll in range(n_points):
                 # second component is EAST
                 co_x = coords[1, ll]
                 # first component is NORTH
@@ -2875,8 +2875,8 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print 'desired plotting projection not possible - choose from :\n',
-            print available_coord_systems
+            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print(available_coord_systems)
             raise MTError(' !! ')
 
         plot_upper_hem = self._plot_show_upper_hemis
@@ -2889,7 +2889,7 @@ class BeachBall:
             n_points = len(o2proj[0, :])
             coords2D = np.zeros((2, n_points))
 
-            for ll in xrange(n_points):
+            for ll in range(n_points):
                 # second component is EAST
                 co_x = coords[1, ll]
                 # first component is NORTH
@@ -2954,8 +2954,8 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print 'desired plotting projection not possible - choose from :\n',
-            print available_coord_systems
+            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print(available_coord_systems)
             raise MTError(' !! ')
 
         plot_upper_hem = self._plot_show_upper_hemis
@@ -2968,7 +2968,7 @@ class BeachBall:
             n_points = len(o2proj[0, :])
             coords2D = np.zeros((2, n_points))
 
-            for ll in xrange(n_points):
+            for ll in range(n_points):
                 # second component is EAST
                 co_x = coords[1, ll]
                 # first component is NORTH
@@ -3044,7 +3044,7 @@ class BeachBall:
         sorted_curve = np.zeros((2, len(curve[0, :])))
         # in polar coordinates
         r_phi_curve = np.zeros((len(curve[0, :]), 2))
-        for ii in xrange(curve.shape[1]):
+        for ii in range(curve.shape[1]):
             r_phi_curve[ii, 0] = \
                 math.sqrt(curve[0, ii] ** 2 + curve[1, ii] ** 2)
             r_phi_curve[ii, 1] = \
@@ -3087,13 +3087,13 @@ class BeachBall:
 
         if keep_direction:
             # direction is kept
-            for jj in xrange(curve.shape[1]):
+            for jj in range(curve.shape[1]):
                 running_idx = (start_idx_curve + jj) % len(curve[0, :])
                 sorted_curve[0, jj] = curve[0, running_idx]
                 sorted_curve[1, jj] = curve[1, running_idx]
         else:
             # direction  is reversed
-            for jj in xrange(curve.shape[1]):
+            for jj in range(curve.shape[1]):
                 running_idx = (start_idx_curve - jj) % len(curve[0, :])
                 sorted_curve[0, jj] = curve[0, running_idx]
                 sorted_curve[1, jj] = curve[1, running_idx]
@@ -3374,7 +3374,7 @@ class BeachBall:
                                 transparent=True,
                                 format=self._plot_outfile_format)
             except:
-                print 'saving of plot not possible'
+                print('saving of plot not possible')
         P.show()
         P.close('all')
 
@@ -3502,8 +3502,8 @@ class BeachBall:
 
         elif self._plot_show_1faultplane:
             if not self._plot_show_FP_index in [1, 2]:
-                print 'no fault plane specified for being plotted... ',
-                print 'continue without faultplane'
+                print('no fault plane specified for being plotted... ', end=' ')
+                print('continue without faultplane')
                 pass
             else:
                 alpha = self._plot_faultplane_alpha * self._plot_total_alpha
@@ -3599,7 +3599,7 @@ if __name__ == "__main__":
                               'eigvals', 'eigvecs',
                               't', 'n', 'p')
 
-    decomp_attrib_map = dict(zip(decomp_attrib_map_keys,
+    decomp_attrib_map = dict(list(zip(decomp_attrib_map_keys,
                                  ('input_system', 'output_system',
                                   'decomp_type', 'M',
                                   'iso', 'iso_percentage',
@@ -3611,7 +3611,7 @@ if __name__ == "__main__":
                                   'moment', 'mag',
                                   'eigvals', 'eigvecs',
                                   't_axis', 'null_axis', 'p_axis')
-                                 ))
+                                 )))
 
     lo_allowed_systems = ['NED', 'USE', 'XYZ', 'NWU']
 
@@ -3715,7 +3715,7 @@ if __name__ == "__main__":
 
         MT._decompose_M()
 
-        print
+        print()
 
         # build argument for local call within MT object:
         lo_args = kwargs_dict['decomp_out_part']
@@ -3752,10 +3752,10 @@ Pressure-axis'''.splitlines()
         for label, arg in zip(labels, lo_args):
             getter = getattr(MT, 'get_' + decomp_attrib_map[arg])
             x = getter(style='y', system=out_system)
-            print '%s: %s' % (label, x)
+            print('%s: %s' % (label, x))
 
     def _call_describe(MT, kwargs_dict):
-        print MT
+        print(MT)
 
     def _build_gmt_dict(options, optparser):
         """
@@ -3788,7 +3788,7 @@ Pressure-axis'''.splitlines()
             consistent_kwargs_dict['_GMT_1fp'] = 0
 
         if temp_dict['GMT_string_type'][0].lower() not in ['f', 'l', 'e']:
-            print 'type of desired string not known - taking "fill" instead'
+            print('type of desired string not known - taking "fill" instead')
             consistent_kwargs_dict['_GMT_type'] = 'fill'
 
         else:
@@ -3800,9 +3800,9 @@ Pressure-axis'''.splitlines()
                 consistent_kwargs_dict['_GMT_type'] = 'EVs'
 
         if float(temp_dict['GMT_scaling']) < epsilon:
-            print 'GMT scaling factor must be a factor larger than'
-            print '%f - set to 1, due to obviously stupid input value' % \
-                (epsilon)
+            print('GMT scaling factor must be a factor larger than')
+            print('%f - set to 1, due to obviously stupid input value' % \
+                (epsilon))
             temp_dict['GMT_scaling'] = 1
 
         if temp_dict['plot_viewpoint']:
@@ -3823,14 +3823,14 @@ Pressure-axis'''.splitlines()
 
         if temp_dict['GMT_projection']:
             lo_allowed_projections = ['stereo', 'ortho', 'lambert']  # ,'gnom']
-            do_allowed_projections = dict(zip(('s', 'o', 'l', 'g'),
+            do_allowed_projections = dict(list(zip(('s', 'o', 'l', 'g'),
                                               ('stereo', 'ortho',
-                                               'lambert', 'gnom')))
+                                               'lambert', 'gnom'))))
             try:
                 gmtp = temp_dict['GMT_projection'].lower()
                 if gmtp in lo_allowed_projections:
                     consistent_kwargs_dict['plot_projection'] = gmtp
-                elif gmtp in do_allowed_projections.keys():
+                elif gmtp in list(do_allowed_projections.keys()):
                     consistent_kwargs_dict['plot_projection'] = \
                         do_allowed_projections[gmtp]
                 else:
@@ -4004,14 +4004,14 @@ Pressure-axis'''.splitlines()
 
         if temp_dict['plot_projection']:
             lo_allowed_projections = ['stereo', 'ortho', 'lambert']  # ,'gnom']
-            do_allowed_projections = dict(zip(('s', 'o', 'l', 'g'),
+            do_allowed_projections = dict(list(zip(('s', 'o', 'l', 'g'),
                                               ('stereo', 'ortho',
-                                               'lambert', 'gnom')))
+                                               'lambert', 'gnom'))))
             try:
                 ppl = temp_dict['plot_projection'].lower()
                 if ppl in lo_allowed_projections:
                     consistent_kwargs_dict['plot_projection'] = ppl
-                elif ppl in do_allowed_projections.keys():
+                elif ppl in list(do_allowed_projections.keys()):
                     consistent_kwargs_dict['plot_projection'] = \
                         do_allowed_projections[ppl]
                 else:
@@ -4308,7 +4308,7 @@ Pressure-axis'''.splitlines()
         # todo
         # check, if arguments do not start with "-" - if so, there is a lack of
         # arguments for the previous option
-        for val2check in options.__dict__.values():
+        for val2check in list(options.__dict__.values()):
             if str(val2check).startswith('-'):
                 try:
                     val2check_split = val2check.split(',')
@@ -4780,7 +4780,7 @@ Choose type of decomposition - values 1,2,3,4 \n[Default: 1]:
 
 %s
 ''' % '\n'.join(['    * %s - %s' % (k, v[0]) for (k, v)
-                 in MomentTensor.decomp_dict.items()]))
+                 in list(MomentTensor.decomp_dict.items())]))
 
         parser_decompose.add_option_group(group_type)
         parser_decompose.add_option_group(group_part)
@@ -4811,13 +4811,13 @@ systems can be specified.'''.lstrip(),
     else:
 
         call = sys.argv[1].lower()
-        abbrev = dict(zip(('p', 'g', 'd', 'i', '--help', '-h'), (
-            'plot', 'gmt', 'decompose', 'describe', 'help', 'help')))
+        abbrev = dict(list(zip(('p', 'g', 'd', 'i', '--help', '-h'), (
+            'plot', 'gmt', 'decompose', 'describe', 'help', 'help'))))
 
         if call in abbrev:
             call = abbrev[call]
 
-        if call not in abbrev.values():
+        if call not in list(abbrev.values()):
             sys.exit('no such method: %s' % call)
 
     if call == 'help':
@@ -4894,7 +4894,7 @@ with the respective double-couple- and CLVD-components by using:
 
 """ % (MOPAD_VERSION)
 
-        print helpstring
+        print(helpstring)
 
         sys.exit()
 
@@ -4911,12 +4911,12 @@ with the respective double-couple- and CLVD-components by using:
         M_raw = [float(xx) for xx in sys.argv[2].split(',')]
 
     if not len(M_raw) in [3, 4, 6, 7, 9]:
-        print '\nERROR!! Provide proper source mechanism\n\n'
+        print('\nERROR!! Provide proper source mechanism\n\n')
         sys.exit()
     if len(M_raw) in [4, 6, 7, 9] and len(np.array(M_raw).nonzero()[0]) == 0:
-        print '\nERROR!! Provide proper source mechanism\n\n'
+        print('\nERROR!! Provide proper source mechanism\n\n')
         sys.exit()
 
     aa = _handle_input(call, M_raw, sys.argv[3:], _build_optparsers()[call])
     if aa is not None:
-        print aa
+        print(aa)
