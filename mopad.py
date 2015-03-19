@@ -1791,8 +1791,8 @@ class BeachBall:
 
         elif self._GMT_1fp:
             if not int(self._GMT_1fp) in [1, 2]:
-                print('no fault plane specified for being plotted...continue', end=' ')
-                print('without fault plane(s)')
+                print('no fault plane specified for being plotted...continue'
+                      +'without fault plane(s)')
                 pass
             else:
                 if int(self._GMT_1fp) == 1:
@@ -2684,7 +2684,7 @@ class BeachBall:
         list_of_possible_projections = ['stereo', 'ortho', 'lambert', 'gnom']
 
         if not self._plot_projection in list_of_possible_projections:
-            print('desired projection not possible - choose from:\n ', end=' ')
+            print('desired projection not possible - choose from:\n ')
             print(list_of_possible_projections)
             raise MTError(' !! ')
 
@@ -2723,7 +2723,7 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print('desired plotting projection not possible - choose from :\n')
             print(available_coord_systems)
             raise MTError(' !! ')
 
@@ -2800,7 +2800,7 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print('desired plotting projection not possible - choose from :\n')
             print(available_coord_systems)
             raise MTError(' !! ')
 
@@ -2875,7 +2875,7 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print('desired plotting projection not possible - choose from :\n')
             print(available_coord_systems)
             raise MTError(' !! ')
 
@@ -2954,7 +2954,7 @@ class BeachBall:
         available_coord_systems = ['NED']
 
         if not self._plot_basis in available_coord_systems:
-            print('desired plotting projection not possible - choose from :\n', end=' ')
+            print('desired plotting projection not possible - choose from :\n')
             print(available_coord_systems)
             raise MTError(' !! ')
 
@@ -3502,7 +3502,7 @@ class BeachBall:
 
         elif self._plot_show_1faultplane:
             if not self._plot_show_FP_index in [1, 2]:
-                print('no fault plane specified for being plotted... ', end=' ')
+                print('no fault plane specified for being plotted... ')
                 print('continue without faultplane')
                 pass
             else:
